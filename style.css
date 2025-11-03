@@ -1,0 +1,155 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* A caixa principal do nosso app */
+.container {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+h1 {
+    text-align: center;
+    color: #1c3d1c; /* Um verde escuro */
+}
+
+/* Área do input e botão */
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#jogador-input {
+    flex-grow: 1; /* Faz o input ocupar o espaço que sobra */
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#add-btn {
+    padding: 10px 15px;
+    background-color: #28a745; /* Verde (Req. 2) */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#add-btn:hover {
+    background-color: #218838;
+}
+
+/* --- REQUISITO 2: Cores de Erro e Sucesso --- */
+.mensagem {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    display: none; /* Só aparece quando tem mensagem */
+}
+
+.mensagem.sucesso {
+    background-color: #d4edda;
+    color: #155724;
+    display: block;
+}
+
+.mensagem.erro {
+    background-color: #f8d7da;
+    color: #721c24;
+    display: block;
+}
+
+/* Borda vermelha para o input (Req. 2) */
+#jogador-input.erro-borda {
+    border-color: #dc3545; /* Vermelho */
+}
+/* Borda verde para o input (Req. 2) */
+#jogador-input.sucesso-borda {
+    border-color: #28a745; /* Verde */
+}
+
+
+/* --- A Lista e os Itens --- */
+#lista-jogadores {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Cada item da lista (jogador) */
+.item-lista {
+    background-color: #f9f9f9;
+    padding: 12px 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* REQUISITO 6: PNG (bola de futebol) */
+.item-lista::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    /* Imagem PNG (bola) codificada para não precisar de arquivo separado */
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABs0lEQVRIS7VWwVHDMAx9UqgDpIOkA6SDpAOkA6QDoAOkA6QDpIPoAJVAB1TgdOY5M+xkZ5I9f/Kd7J8/S1I7qQ2U1GvQk0Bqa00ASfU+gPBNAd6qGgDlpwAokl0AfgLgtQCeyq4CgGVOACqA/xOAQwDYFQD/TzT/A4AXANYQ5bMAPAOAUQBLAPzKsvA/AhgGcHkA/u+1Z98AcCaISQCMEeBvAJwCcD6IXQJgqQCmAOxnBdwL4FkQ7QCsBeAsgPMaEAmAxwDcyyJtANgL4BYA7/M6LwIAdgGYA/CtANqKSQGAL5v+rwA8qQGqGgCeBuAVAJ6rN3gNwHMA/JkBWwB6A9gBQCmG+R4AngDgNQAWAbgOAPf+ALjT/B8AlqI8LgD6ASwB8AMAvFwLgBsN/wKAZQDaNf8HAGf5fGvABiCPAvAVgHsAvKIAfQCMAXCKt6sBLpSgN9yvLNVsC+AyAPoZwFMB/BYAbwHwtg+2y+DPgJIA/AGAUwXoWQD2ATiL1DQDvAfAZQC2C9CrAexkY5sJIFsA9AC43wBYW4LVDvAvAPgFYF8D0wH4a/gPAQYAo+Xpc/wDMhAAAAAASUVORK5CYII=');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nome-jogador {
+    flex-grow: 1;
+    font-size: 17px;
+}
+
+/* Quando está editando (Req. 4) */
+.nome-jogador[contenteditable="true"] {
+    background-color: #fff;
+    border: 1px solid #007bff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    outline: none;
+}
+
+/* Botões de Editar e Excluir */
+.btn-acao {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 8px;
+    padding: 5px;
+}
+
+.btn-editar {
+    color: #007bff; /* Azul */
+}
+.btn-excluir {
+    color: #dc3545; /* Vermelho (Req. 3) */
+}
+
+/* REQUISITO 5: Mudar a ordem (visual) */
+.item-lista.arrastando {
+    opacity: 0.5;
+    background-color: #cce5ff;
+}

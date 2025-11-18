@@ -1,36 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const inputElement = document.getElementById('item-input');
+    const inputTexto = document.getElementById('item-text-input');
+    const inputImgUrl = document.getElementById('img-url-input');
     const btnAdicionar = document.getElementById('add-btn');
     const listaItens = document.getElementById('lista-itens');
     const divMensagem = document.getElementById('mensagem');
 
     function adicionarItem() {
-        const textoItem = inputElement.value.trim();
+        const textoItem = inputTexto.value.trim();
+        const imgUrl = inputImgUrl.value.trim();
 
         if (textoItem.length < 5) {
             mostrarMensagem('Erro: O item deve ter no mínimo 5 caracteres.', 'erro');
-            inputElement.classList.add('erro-borda');
-            inputElement.classList.remove('sucesso-borda');
+            inputTexto.classList.add('erro-borda');
+            inputTexto.classList.remove('sucesso-borda');
             return;
         }
 
         mostrarMensagem('Item adicionado com sucesso!', 'sucesso');
-        inputElement.classList.add('sucesso-borda');
-        inputElement.classList.remove('erro-borda');
+        inputTexto.classList.add('sucesso-borda');
+        inputTexto.classList.remove('erro-borda');
 
-        criarItemLista(textoItem);
-        inputElement.value = '';
+        criarItemLista(textoItem, imgUrl);
+        
+        inputTexto.value = '';
+        inputImgUrl.value = '';
     }
 
-    function criarItemLista(texto) {
+    function criarItemLista(texto, imgUrl) {
         const li = document.createElement('li');
         li.className = 'item-lista';
-        li.setAttribute('draggable', 'true');
 
+        // REQUISITO 6: Adiciona a tag de imagem (apenas se a URL foi fornecida)
+        let imgTag = '';
+        if (imgUrl) {
+            // onerror esconde a imagem se o link estiver quebrado
+            imgTag = `<img src="${imgUrl}" class="item-imagem" alt="" onerror="this.style.display='none'">`;
+        }
+
+        // HTML interno do item, agora com botões de subir/descer
         li.innerHTML = `
-            <span class="texto-item">${texto}</span>
-            <div class="botoes">
+            <div class="item-conteudo">
+                ${imgTag}
+                <span class="texto-item">${texto}</span>
+            </div>
+            <div class="botoes-grupo">
+                <button class="btn-acao btn-subir">⬆️</button>
+                <button class="btn-acao btn-descer">⬇️</button>
                 <button class="btn-acao btn-editar">✏️</button>
                 <button class="btn-acao btn-excluir">❌</button>
             </div>
@@ -55,10 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!itemPai) return;
 
+        // REQUISITO 3: Excluir
         if (itemClicado.classList.contains('btn-excluir')) {
             itemPai.remove();
         }
 
+        // REQUISITO 4: Editar
         if (itemClicado.classList.contains('btn-editar')) {
             const spanItem = itemPai.querySelector('.texto-item');
             const estaEditando = spanItem.isContentEditable;
@@ -70,51 +88,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (spanItem.textContent.trim().length < 5) {
                     mostrarMensagem('Erro: O item editado também precisa de 5+ letras.', 'erro');
                 }
-
             } else {
                 spanItem.contentEditable = true;
                 spanItem.focus();
                 itemClicado.textContent = '💾';
             }
         }
+
+        // REQUISITO 5: Mover para Cima
+        if (itemClicado.classList.contains('btn-subir')) {
+            const itemAnterior = itemPai.previousElementSibling;
+            if (itemAnterior) {
+                listaItens.insertBefore(itemPai, itemAnterior);
+            }
+        }
+
+        // REQUISITO 5: Mover para Baixo
+        if (itemClicado.classList.contains('btn-descer')) {
+            const itemSeguinte = itemPai.nextElementSibling;
+            if (itemSeguinte) {
+                listaItens.insertBefore(itemPai, itemSeguinte.nextSibling);
+            }
+        }
     }
 
 
-    let itemArrastado = null;
-
-    listaItens.addEventListener('dragstart', (evento) => {
-        itemArrastado = evento.target;
-        itemArrastado.classList.add('arrastando');
-    });
-
-    listaItens.addEventListener('dragend', () => {
-        if (itemArrastado) {
-            itemArrastado.classList.remove('arrastando');
-        }
-        itemArrastado = null;
-    });
-
-    listaItens.addEventListener('dragover', (evento) => {
-        evento.preventDefault();
-        
-        const itemAlvo = evento.target.closest('.item-lista');
-        
-        if (itemAlvo && itemAlvo !== itemArrastado) {
-            const caixa = itemAlvo.getBoundingClientRect();
-            const meioDoItem = caixa.top + (caixa.height / 2);
-
-            if (evento.clientY < meioDoItem) {
-                listaItens.insertBefore(itemArrastado, itemAlvo);
-            } else {
-                listaItens.insertBefore(itemArrastado, itemAlvo.nextSibling);
-            }
-        }
-    });
-
-
+    // --- OUVINTES DE EVENTOS ---
+    
     btnAdicionar.addEventListener('click', adicionarItem);
 
-    inputElement.addEventListener('keydown', (evento) => {
+    // Adiciona com "Enter" em qualquer um dos campos de input
+    inputTexto.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Enter') {
+            adicionarItem();
+        }
+    });
+
+    inputImgUrl.addEventListener('keydown', (evento) => {
         if (evento.key === 'Enter') {
             adicionarItem();
         }

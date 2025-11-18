@@ -21,18 +21,20 @@ body {
 
 h1 {
     text-align: center;
-    color: #1c3d1c; /* Um verde escuro */
+    color: #1c3d1c;
 }
 
 /* Área do input e botão */
 .input-area {
     display: flex;
+    flex-direction: column; /* Inputs um em cima do outro */
     gap: 10px;
     margin-bottom: 15px;
 }
 
-#item-input {
-    flex-grow: 1; /* Faz o input ocupar o espaço que sobra */
+/* Estilo para ambos os inputs */
+#item-text-input,
+#img-url-input {
     padding: 10px;
     border: 2px solid #ccc;
     border-radius: 5px;
@@ -41,7 +43,7 @@ h1 {
 
 #add-btn {
     padding: 10px 15px;
-    background-color: #28a745; /* Verde (Req. 2) */
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
@@ -53,13 +55,13 @@ h1 {
     background-color: #218838;
 }
 
-/* --- REQUISITO 2: Cores de Erro e Sucesso --- */
+/* --- Cores de Erro e Sucesso --- */
 .mensagem {
     text-align: center;
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 5px;
-    display: none; /* Só aparece quando tem mensagem */
+    display: none;
 }
 
 .mensagem.sucesso {
@@ -74,13 +76,13 @@ h1 {
     display: block;
 }
 
-/* Borda vermelha para o input (Req. 2) */
-#item-input.erro-borda {
-    border-color: #dc3545; /* Vermelho */
+/* Borda vermelha (só no input de texto) */
+#item-text-input.erro-borda {
+    border-color: #dc3545;
 }
-/* Borda verde para o input (Req. 2) */
-#item-input.sucesso-borda {
-    border-color: #28a745; /* Verde */
+/* Borda verde (só no input de texto) */
+#item-text-input.sucesso-borda {
+    border-color: #28a745;
 }
 
 
@@ -91,7 +93,6 @@ h1 {
     margin: 0;
 }
 
-/* Cada item da lista (jogador) */
 .item-lista {
     background-color: #f9f9f9;
     padding: 12px 15px;
@@ -103,18 +104,20 @@ h1 {
     justify-content: space-between;
 }
 
-/* REQUISITO 6: PNG (bola de futebol) */
-.item-lista::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
+/* REQUISITO 6: Imagem opcional */
+.item-imagem {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 5px;
     margin-right: 12px;
-    /* Imagem PNG (bola) codificada para não precisar de arquivo separado */
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABs0lEQVRIS7VWwVHDMAx9UqgDpIOkA6SDpAOkA6QDoAOkA6QDpIPoAJVAB1TgdOY5M+xkZ5I9f/Kd7J8/S1I7qQ2U1GvQk0Bqa00ASfU+gPBNAd6qGgDlpwAokl0AfgLgtQCeyq4CgGVOACqA/xOAQwDYFQD/TzT/A4AXANYQ5bMAPAOAUQBLAPzKsvA/AhgGcHkA/u+1Z98AcCaISQCMEeBvAJwCcD6IXQJgqQCmAOxnBdwL4FkQ7QCsBeAsgPMaEAmAxwDcyyJtANgL4BYA7/M6LwIAdgGYA/CtANqKSQGAL5v+rwA8qQGqGgCeBuAVAJ6rN3gNwHMA/JkBWwB6A9gBQCmG+R4AngDgNQAWAbgOAPf+ALjT/B8AlqI8LgD6ASwB8AMAvFwLgBsN/wKAZQDaNf8HAGf5fGvABiCPAvAVgHsAvKIAfQCMAXCKt6sBLpSgN9yvLNVsC+AyAPoZwFMB/BYAbwHwtg+2y+DPgJIA/AGAUwXoWQD2ATiL1DQDvAfAZQC2C9CrAexkY5sJIFsA9AC43wBYW4LVDvAvAPgFYF8D0wH4a/gPAQYAo+Xpc/wDMhAAAAAASUVORK5CYII=');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+}
+
+.item-conteudo {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin-right: 10px; /* Espaço entre o texto e os botões */
 }
 
 .texto-item {
@@ -122,7 +125,6 @@ h1 {
     font-size: 17px;
 }
 
-/* Quando está editando (Req. 4) */
 .texto-item[contenteditable="true"] {
     background-color: #fff;
     border: 1px solid #007bff;
@@ -131,25 +133,29 @@ h1 {
     outline: none;
 }
 
-/* Botões de Editar e Excluir */
+/* Grupo para todos os botões de ação */
+.botoes-grupo {
+    display: flex;
+    gap: 5px; /* Espaço entre os botões */
+}
+
+/* Botões de Ação (Editar, Excluir, Subir, Descer) */
 .btn-acao {
     border: none;
     background: none;
     cursor: pointer;
     font-size: 18px;
-    margin-left: 8px;
     padding: 5px;
 }
 
 .btn-editar {
-    color: #007bff; /* Azul */
+    color: #007bff;
 }
 .btn-excluir {
-    color: #dc3545; /* Vermelho (Req. 3) */
+    color: #dc3545;
 }
 
-/* REQUISITO 5: Mudar a ordem (visual) */
-.item-lista.arrastando {
-    opacity: 0.5;
-    background-color: #cce5ff;
+/* REQUISITO 5: Estilo dos botões de mover */
+.btn-subir, .btn-descer {
+    color: #333;
 }

@@ -31,7 +31,7 @@ h1 {
     margin-bottom: 15px;
 }
 
-#jogador-input {
+#item-input {
     flex-grow: 1; /* Faz o input ocupar o espaço que sobra */
     padding: 10px;
     border: 2px solid #ccc;
@@ -75,17 +75,17 @@ h1 {
 }
 
 /* Borda vermelha para o input (Req. 2) */
-#jogador-input.erro-borda {
+#item-input.erro-borda {
     border-color: #dc3545; /* Vermelho */
 }
 /* Borda verde para o input (Req. 2) */
-#jogador-input.sucesso-borda {
+#item-input.sucesso-borda {
     border-color: #28a745; /* Verde */
 }
 
 
 /* --- A Lista e os Itens --- */
-#lista-jogadores {
+#lista-itens {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -117,13 +117,13 @@ h1 {
     background-position: center;
 }
 
-.nome-jogador {
+.texto-item {
     flex-grow: 1;
     font-size: 17px;
 }
 
 /* Quando está editando (Req. 4) */
-.nome-jogador[contenteditable="true"] {
+.texto-item[contenteditable="true"] {
     background-color: #fff;
     border: 1px solid #007bff;
     padding: 2px 5px;
